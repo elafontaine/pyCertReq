@@ -39,18 +39,18 @@ class TestPyCertReq(TestCase):
         try_remove_file(self.csr_path)
 
     def test_can_generate_certificate(self):
-        self.obj.generate_certs(key_file=self.key_path, csr_path=self.csr_path)
+        self.obj.generate_certs(key_path=self.key_path, csr_path=self.csr_path)
 
         self.assertTrue(os.path.isfile(self.key_path))
         self.assertTrue(os.path.isfile(self.csr_path))
 
-    def test_we_can_request_Microsoft_CA(self):
-        # given : a CA host
+    def test_can_request_Microsoft_CA(self):
+        # given : a Certificate Authority host
         self.MSCA_Host = "hostname"
         self.path_to_request = expected_path = "/path/on/CA"
 
         # when : making a request to the CA
-        actual_responded_path = self.send_csr_for_signing(csr_path=self.csr_path)
+        actual_responded_path = self.obj.send_csr_for_signing(csr_path=self.csr_path)
 
         """
         OUTPUTLINK="$( curl -k -u "${CERTREQ_USER}:${CERTREQ_PASS}" --ntlm \
